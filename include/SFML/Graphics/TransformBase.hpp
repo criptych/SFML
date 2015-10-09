@@ -45,14 +45,6 @@ class SFML_GRAPHICS_API TransformBase
 protected:
 
     ////////////////////////////////////////////////////////////
-    /// \brief Default constructor
-    ///
-    /// Creates an identity transform (a transform that does nothing).
-    ///
-    ////////////////////////////////////////////////////////////
-    TransformBase();
-
-    ////////////////////////////////////////////////////////////
     /// \brief Construct a transform from a 3x3 matrix
     ///
     /// \param a00 Element (0, 0) of the matrix
@@ -97,6 +89,14 @@ protected:
                   float a30, float a31, float a32, float a33);
 
 public:
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Default constructor
+    ///
+    /// Creates an identity transform (a transform that does nothing).
+    ///
+    ////////////////////////////////////////////////////////////
+    TransformBase();
 
     ////////////////////////////////////////////////////////////
     /// \brief Construct a transform from another
