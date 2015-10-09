@@ -29,7 +29,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <SFML/Graphics/Export.hpp>
-#include <SFML/Graphics/Rect.hpp>
+#include <SFML/Graphics/TransformBase.hpp>
 #include <SFML/System/Vector2.hpp>
 
 
@@ -39,7 +39,7 @@ namespace sf
 /// \brief Define a 3x3 transform matrix
 ///
 ////////////////////////////////////////////////////////////
-class SFML_GRAPHICS_API Transform
+class SFML_GRAPHICS_API Transform : public TransformBase
 {
 public:
 
@@ -70,21 +70,12 @@ public:
               float a20, float a21, float a22);
 
     ////////////////////////////////////////////////////////////
-    /// \brief Return the transform as a 4x4 matrix
+    /// \brief Construct a transform from another
     ///
-    /// This function returns a pointer to an array of 16 floats
-    /// containing the transform elements as a 4x4 matrix, which
-    /// is directly compatible with OpenGL functions.
-    ///
-    /// \code
-    /// sf::Transform transform = ...;
-    /// glLoadMatrixf(transform.getMatrix());
-    /// \endcode
-    ///
-    /// \return Pointer to a 4x4 matrix
+    /// Copies the matrix from another transform (2D or 3D).
     ///
     ////////////////////////////////////////////////////////////
-    const float* getMatrix() const;
+    Transform(const TransformBase &transform);
 
     ////////////////////////////////////////////////////////////
     /// \brief Return the inverse of the transform
@@ -98,43 +89,6 @@ public:
     Transform getInverse() const;
 
     ////////////////////////////////////////////////////////////
-    /// \brief Transform a 2D point
-    ///
-    /// \param x X coordinate of the point to transform
-    /// \param y Y coordinate of the point to transform
-    ///
-    /// \return Transformed point
-    ///
-    ////////////////////////////////////////////////////////////
-    Vector2f transformPoint(float x, float y) const;
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Transform a 2D point
-    ///
-    /// \param point Point to transform
-    ///
-    /// \return Transformed point
-    ///
-    ////////////////////////////////////////////////////////////
-    Vector2f transformPoint(const Vector2f& point) const;
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Transform a rectangle
-    ///
-    /// Since SFML doesn't provide support for oriented rectangles,
-    /// the result of this function is always an axis-aligned
-    /// rectangle. Which means that if the transform contains a
-    /// rotation, the bounding rectangle of the transformed rectangle
-    /// is returned.
-    ///
-    /// \param rectangle Rectangle to transform
-    ///
-    /// \return Transformed rectangle
-    ///
-    ////////////////////////////////////////////////////////////
-    FloatRect transformRect(const FloatRect& rectangle) const;
-
-    ////////////////////////////////////////////////////////////
     /// \brief Combine the current transform with another one
     ///
     /// The result is a transform that is equivalent to applying
@@ -146,7 +100,7 @@ public:
     /// \return Reference to *this
     ///
     ////////////////////////////////////////////////////////////
-    Transform& combine(const Transform& transform);
+    Transform& combine(const TransformBase& transform);
 
     ////////////////////////////////////////////////////////////
     /// \brief Combine the current transform with a translation
@@ -347,61 +301,7 @@ public:
     ///
     ////////////////////////////////////////////////////////////
     Transform& scale(const Vector2f& factors, const Vector2f& center);
-
-    ////////////////////////////////////////////////////////////
-    // Static member data
-    ////////////////////////////////////////////////////////////
-    static const Transform Identity; ///< The identity transform (does nothing)
-
-private:
-
-    ////////////////////////////////////////////////////////////
-    // Member data
-    ////////////////////////////////////////////////////////////
-    float m_matrix[16]; ///< 4x4 matrix defining the transformation
 };
-
-////////////////////////////////////////////////////////////
-/// \relates sf::Transform
-/// \brief Overload of binary operator * to combine two transforms
-///
-/// This call is equivalent to calling Transform(left).combine(right).
-///
-/// \param left Left operand (the first transform)
-/// \param right Right operand (the second transform)
-///
-/// \return New combined transform
-///
-////////////////////////////////////////////////////////////
-SFML_GRAPHICS_API Transform operator *(const Transform& left, const Transform& right);
-
-////////////////////////////////////////////////////////////
-/// \relates sf::Transform
-/// \brief Overload of binary operator *= to combine two transforms
-///
-/// This call is equivalent to calling left.combine(right).
-///
-/// \param left Left operand (the first transform)
-/// \param right Right operand (the second transform)
-///
-/// \return The combined transform
-///
-////////////////////////////////////////////////////////////
-SFML_GRAPHICS_API Transform& operator *=(Transform& left, const Transform& right);
-
-////////////////////////////////////////////////////////////
-/// \relates sf::Transform
-/// \brief Overload of binary operator * to transform a point
-///
-/// This call is equivalent to calling left.transformPoint(right).
-///
-/// \param left Left operand (the transform)
-/// \param right Right operand (the point to transform)
-///
-/// \return New transformed point
-///
-////////////////////////////////////////////////////////////
-SFML_GRAPHICS_API Vector2f operator *(const Transform& left, const Vector2f& right);
 
 } // namespace sf
 
