@@ -403,7 +403,7 @@ void Shader::setParameter(const std::string& name, const Color& color)
 
 
 ////////////////////////////////////////////////////////////
-void Shader::setParameter(const std::string& name, const Transform& transform)
+void Shader::setParameter(const std::string& name, const TransformBase& transform)
 {
     if (m_shaderProgram)
     {
@@ -790,7 +790,7 @@ void Shader::setParameter(const std::string& name, const Color& color)
 
 
 ////////////////////////////////////////////////////////////
-void Shader::setParameter(const std::string& name, const Transform& transform)
+void Shader::setParameter(const std::string& name, const TransformBase& transform)
 {
 }
 
