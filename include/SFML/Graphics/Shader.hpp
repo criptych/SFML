@@ -457,6 +457,48 @@ public:
     void setParameter(const std::string& name, CurrentTextureType);
 
     ////////////////////////////////////////////////////////////
+    /// \brief Set the location of a shader attribute
+    ///
+    /// Binds shader attribute \a name to a known location (index)
+    /// \a location.
+    ///
+    /// This method must be called before loading the shader source.
+    ///
+    /// Example:
+    /// \code
+    /// attribute vec3 position; // this is the variable in the shader
+    /// \endcode
+    /// \code
+    /// shader.setAttribLocation("position", 0);
+    /// \endcode
+    ///
+    /// \param name Name of the attribute in the shader
+    /// \param location Location to assign
+    ///
+    ////////////////////////////////////////////////////////////
+    void setAttribLocation(const std::string& name, int location);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Get the location of a shader attribute
+    ///
+    /// Get the location of a shader attribute, either the location
+    /// assigned by the user beforehand, or by OpenGL when the shader
+    /// is compiled.
+    ///
+    /// Example:
+    /// \code
+    /// attribute vec3 position; // this is the variable in the shader
+    /// \endcode
+    /// \code
+    /// int location = shader.getAttribLocation("position");
+    /// \endcode
+    ///
+    /// \param name Name of the attribute in the shader
+    ///
+    ////////////////////////////////////////////////////////////
+    int getAttribLocation(const std::string& name);
+
+    ////////////////////////////////////////////////////////////
     /// \brief Get the underlying OpenGL handle of the shader.
     ///
     /// You shouldn't need to use this function, unless you have
@@ -551,6 +593,7 @@ private:
     int          m_currentTexture; ///< Location of the current texture in the shader
     TextureTable m_textures;       ///< Texture variables in the shader, mapped to their location
     ParamTable   m_params;         ///< Parameters location cache
+    ParamTable   m_attribs;        ///< Attributes location cache
 };
 
 } // namespace sf
