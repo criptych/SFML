@@ -103,9 +103,9 @@ Vector2f TransformBase::transformPoint(const Vector2f& point) const
 ////////////////////////////////////////////////////////////
 Vector3f TransformBase::transformPoint(float x, float y, float z) const
 {
-    return Vector3f(m_matrix[0] * x + m_matrix[4] * y + m_matrix[12],
-                    m_matrix[1] * x + m_matrix[5] * y + m_matrix[13],
-                    m_matrix[2] * x + m_matrix[6] * y + m_matrix[14]);
+    return Vector3f(m_matrix[0] * x + m_matrix[4] * y + m_matrix[8]  * z + m_matrix[12],
+                    m_matrix[1] * x + m_matrix[5] * y + m_matrix[9]  * z + m_matrix[13],
+                    m_matrix[2] * x + m_matrix[6] * y + m_matrix[10] * z + m_matrix[14]);
 }
 
 

@@ -236,7 +236,7 @@ Transform3D& operator *=(Transform3D& left, const Transform3D& right)
 
 
 ////////////////////////////////////////////////////////////
-Vector2f operator *(const Transform3D& left, const Vector2f& right)
+Vector3f operator *(const Transform3D& left, const Vector3f& right)
 {
     return left.transformPoint(right);
 }
