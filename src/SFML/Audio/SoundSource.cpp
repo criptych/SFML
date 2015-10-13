@@ -52,6 +52,9 @@ SoundSource::SoundSource(const SoundSource& copy)
     setRelativeToListener(copy.isRelativeToListener());
     setMinDistance(copy.getMinDistance());
     setAttenuation(copy.getAttenuation());
+    setConeInnerAngle(copy.getConeInnerAngle());
+    setConeOuterAngle(copy.getConeOuterAngle());
+    setConeOuterVolume(copy.getConeOuterVolume());
 }
 
 
@@ -127,6 +130,27 @@ void SoundSource::setAttenuation(float attenuation)
 
 
 ////////////////////////////////////////////////////////////
+void SoundSource::setConeInnerAngle(float angle)
+{
+    alCheck(alSourcef(m_source, AL_CONE_INNER_ANGLE, angle));
+}
+
+
+////////////////////////////////////////////////////////////
+void SoundSource::setConeOuterAngle(float angle)
+{
+    alCheck(alSourcef(m_source, AL_CONE_OUTER_ANGLE, angle));
+}
+
+
+////////////////////////////////////////////////////////////
+void SoundSource::setConeOuterVolume(float volume)
+{
+    alCheck(alSourcef(m_source, AL_CONE_OUTER_GAIN, volume * 0.01f));
+}
+
+
+////////////////////////////////////////////////////////////
 float SoundSource::getPitch() const
 {
     ALfloat pitch;
@@ -197,6 +221,36 @@ float SoundSource::getAttenuation() const
 
 
 ////////////////////////////////////////////////////////////
+float SoundSource::getConeInnerAngle() const
+{
+    ALfloat angle;
+    alCheck(alGetSourcef(m_source, AL_CONE_INNER_ANGLE, &angle));
+
+    return angle;
+}
+
+
+////////////////////////////////////////////////////////////
+float SoundSource::getConeOuterAngle() const
+{
+    ALfloat angle;
+    alCheck(alGetSourcef(m_source, AL_CONE_OUTER_ANGLE, &angle));
+
+    return angle;
+}
+
+
+////////////////////////////////////////////////////////////
+float SoundSource::getConeOuterVolume() const
+{
+    ALfloat gain;
+    alCheck(alGetSourcef(m_source, AL_CONE_OUTER_GAIN, &gain));
+
+    return gain * 100.f;
+}
+
+
+////////////////////////////////////////////////////////////
 SoundSource& SoundSource::operator =(const SoundSource& right)
 {
     // Leave m_source untouched -- it's not necessary to destroy and
@@ -210,6 +264,9 @@ SoundSource& SoundSource::operator =(const SoundSource& right)
     setRelativeToListener(right.isRelativeToListener());
     setMinDistance(right.getMinDistance());
     setAttenuation(right.getAttenuation());
+    setConeInnerAngle(right.getConeInnerAngle());
+    setConeOuterAngle(right.getConeOuterAngle());
+    setConeOuterVolume(right.getConeOuterVolume());
 
     return *this;
 }

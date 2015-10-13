@@ -210,6 +210,36 @@ public:
     void setAttenuation(float attenuation);
 
     ////////////////////////////////////////////////////////////
+    /// \brief Set the inner cone angle of the sound
+    ///
+    /// \param angle New inner cone angle of the sound
+    ///
+    /// \see getConeInnerAngle, getMinDistance
+    ///
+    ////////////////////////////////////////////////////////////
+    void setConeInnerAngle(float angle);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Set the outer cone angle of the sound
+    ///
+    /// \param angle New outer cone angle of the sound
+    ///
+    /// \see getConeOuterAngle, getMaxDistance
+    ///
+    ////////////////////////////////////////////////////////////
+    void setConeOuterAngle(float angle);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Set the outer cone volume of the sound
+    ///
+    /// \param angle New outer cone volume of the sound
+    ///
+    /// \see getConeOuterVolume, getMaxDistance
+    ///
+    ////////////////////////////////////////////////////////////
+    void setConeOuterVolume(float volume);
+
+    ////////////////////////////////////////////////////////////
     /// \brief Get the pitch of the sound
     ///
     /// \return Pitch of the sound
@@ -279,6 +309,36 @@ public:
     ///
     ////////////////////////////////////////////////////////////
     float getAttenuation() const;
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Get the inner cone angle of the sound
+    ///
+    /// \return inner cone angle of the sound
+    ///
+    /// \see setConeInnerAngle, getMinDistance
+    ///
+    ////////////////////////////////////////////////////////////
+    float getConeInnerAngle() const;
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Get the outer cone angle of the sound
+    ///
+    /// \return outer cone angle of the sound
+    ///
+    /// \see setConeOuterAngle, getMaxDistance
+    ///
+    ////////////////////////////////////////////////////////////
+    float getConeOuterAngle() const;
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Get the outer cone volume of the sound
+    ///
+    /// \return outer cone volume of the sound
+    ///
+    /// \see setConeOuterVolume, getMaxDistance
+    ///
+    ////////////////////////////////////////////////////////////
+    float getConeOuterVolume() const;
 
     ////////////////////////////////////////////////////////////
     /// \brief Overload of assignment operator
