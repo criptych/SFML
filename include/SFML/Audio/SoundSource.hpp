@@ -128,6 +128,36 @@ public:
     void setPosition(const Vector3f& position);
 
     ////////////////////////////////////////////////////////////
+    /// \brief Set the 3D velocity of the sound in the audio scene
+    ///
+    /// Only sounds with one channel (mono sounds) can be
+    /// spatialized.
+    /// The default velocity of a sound is (0, 0, 0).
+    ///
+    /// \param x X coordinate of the velocity of the sound in the scene
+    /// \param y Y coordinate of the velocity of the sound in the scene
+    /// \param z Z coordinate of the velocity of the sound in the scene
+    ///
+    /// \see getVelocity
+    ///
+    ////////////////////////////////////////////////////////////
+    void setVelocity(float x, float y, float z);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Set the 3D velocity of the sound in the audio scene
+    ///
+    /// Only sounds with one channel (mono sounds) can be
+    /// spatialized.
+    /// The default velocity of a sound is (0, 0, 0).
+    ///
+    /// \param velocity Velocity of the sound in the scene
+    ///
+    /// \see getVelocity
+    ///
+    ////////////////////////////////////////////////////////////
+    void setVelocity(const Vector3f& velocity);
+
+    ////////////////////////////////////////////////////////////
     /// \brief Make the sound's position relative to the listener or absolute
     ///
     /// Making a sound relative to the listener will ensure that it will always
@@ -208,6 +238,16 @@ public:
     ///
     ////////////////////////////////////////////////////////////
     Vector3f getPosition() const;
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Get the 3D velocity of the sound in the audio scene
+    ///
+    /// \return Velocity of the sound
+    ///
+    /// \see setVelocity
+    ///
+    ////////////////////////////////////////////////////////////
+    Vector3f getVelocity() const;
 
     ////////////////////////////////////////////////////////////
     /// \brief Tell whether the sound's position is relative to the

@@ -67,6 +67,27 @@ Vector3f Listener::getPosition()
 
 
 ////////////////////////////////////////////////////////////
+void Listener::setVelocity(float x, float y, float z)
+{
+    setVelocity(Vector3f(x, y, z));
+}
+
+
+////////////////////////////////////////////////////////////
+void Listener::setVelocity(const Vector3f& velocity)
+{
+    priv::AudioDevice::setVelocity(velocity);
+}
+
+
+////////////////////////////////////////////////////////////
+Vector3f Listener::getVelocity()
+{
+    return priv::AudioDevice::getVelocity();
+}
+
+
+////////////////////////////////////////////////////////////
 void Listener::setDirection(float x, float y, float z)
 {
     setDirection(Vector3f(x, y, z));

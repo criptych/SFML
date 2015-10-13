@@ -48,6 +48,7 @@ SoundSource::SoundSource(const SoundSource& copy)
     setPitch(copy.getPitch());
     setVolume(copy.getVolume());
     setPosition(copy.getPosition());
+    setVelocity(copy.getVelocity());
     setRelativeToListener(copy.isRelativeToListener());
     setMinDistance(copy.getMinDistance());
     setAttenuation(copy.getAttenuation());
@@ -87,6 +88,20 @@ void SoundSource::setPosition(float x, float y, float z)
 void SoundSource::setPosition(const Vector3f& position)
 {
     setPosition(position.x, position.y, position.z);
+}
+
+
+////////////////////////////////////////////////////////////
+void SoundSource::setVelocity(float x, float y, float z)
+{
+    alCheck(alSource3f(m_source, AL_VELOCITY, x, y, z));
+}
+
+
+////////////////////////////////////////////////////////////
+void SoundSource::setVelocity(const Vector3f& velocity)
+{
+    setVelocity(velocity.x, velocity.y, velocity.z);
 }
 
 
@@ -142,6 +157,16 @@ Vector3f SoundSource::getPosition() const
 
 
 ////////////////////////////////////////////////////////////
+Vector3f SoundSource::getVelocity() const
+{
+    Vector3f velocity;
+    alCheck(alGetSource3f(m_source, AL_VELOCITY, &velocity.x, &velocity.y, &velocity.z));
+
+    return velocity;
+}
+
+
+////////////////////////////////////////////////////////////
 bool SoundSource::isRelativeToListener() const
 {
     ALint relative;
@@ -181,6 +206,7 @@ SoundSource& SoundSource::operator =(const SoundSource& right)
     setPitch(right.getPitch());
     setVolume(right.getVolume());
     setPosition(right.getPosition());
+    setVelocity(right.getVelocity());
     setRelativeToListener(right.isRelativeToListener());
     setMinDistance(right.getMinDistance());
     setAttenuation(right.getAttenuation());
