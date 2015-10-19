@@ -47,6 +47,8 @@
 #include <SFML/System/Utf.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/System/Vector3.hpp>
+#include <SFML/System/Vector4.hpp>
+#include <SFML/System/VecOps.hpp>
 
 #endif // SFML_SYSTEM_HPP
 
