@@ -32,7 +32,7 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/View.hpp>
-#include <SFML/Graphics/Transform.hpp>
+#include <SFML/Graphics/TransformBase.hpp>
 #include <SFML/Graphics/BlendMode.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/PrimitiveType.hpp>
@@ -362,7 +362,7 @@ private:
     /// \param transform Transform to apply
     ///
     ////////////////////////////////////////////////////////////
-    void applyTransform(const Transform& transform);
+    void applyTransform(const TransformBase& transform);
 
     ////////////////////////////////////////////////////////////
     /// \brief Apply a new texture

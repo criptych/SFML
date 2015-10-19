@@ -39,6 +39,10 @@ set(SRC
     ${SRCROOT}/TextureSaver.hpp
     ${SRCROOT}/Transform.cpp
     ${INCROOT}/Transform.hpp
+    ${SRCROOT}/Transform3D.cpp
+    ${INCROOT}/Transform3D.hpp
+    ${SRCROOT}/TransformBase.cpp
+    ${INCROOT}/TransformBase.hpp
     ${SRCROOT}/Transformable.cpp
     ${INCROOT}/Transformable.hpp
     ${SRCROOT}/View.cpp

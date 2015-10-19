@@ -477,7 +477,7 @@ void RenderTarget::applyBlendMode(const BlendMode& mode)
 
 
 ////////////////////////////////////////////////////////////
-void RenderTarget::applyTransform(const Transform& transform)
+void RenderTarget::applyTransform(const TransformBase& transform)
 {
     // No need to call glMatrixMode(GL_MODELVIEW), it is always the
     // current mode (for optimization purpose, since it's the most used)

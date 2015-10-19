@@ -50,7 +50,7 @@ shader   (NULL)
 
 
 ////////////////////////////////////////////////////////////
-RenderStates::RenderStates(const Transform& theTransform) :
+RenderStates::RenderStates(const TransformBase& theTransform) :
 blendMode(BlendAlpha),
 transform(theTransform),
 texture  (NULL),
@@ -90,7 +90,7 @@ shader   (theShader)
 
 
 ////////////////////////////////////////////////////////////
-RenderStates::RenderStates(const BlendMode& theBlendMode, const Transform& theTransform,
+RenderStates::RenderStates(const BlendMode& theBlendMode, const TransformBase& theTransform,
                            const Texture* theTexture, const Shader* theShader) :
 blendMode(theBlendMode),
 transform(theTransform),

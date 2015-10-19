@@ -29,7 +29,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <SFML/Graphics/Export.hpp>
-#include <SFML/Graphics/Transform.hpp>
+#include <SFML/Graphics/TransformBase.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Window/GlResource.hpp>
 #include <SFML/System/NonCopyable.hpp>
@@ -390,7 +390,7 @@ public:
     /// uniform mat4 matrix; // this is the variable in the shader
     /// \endcode
     /// \code
-    /// sf::Transform transform;
+    /// sf::TransformBase transform;
     /// transform.translate(5, 10);
     /// shader.setParameter("matrix", transform);
     /// \endcode
@@ -399,7 +399,7 @@ public:
     /// \param transform Transform to assign
     ///
     ////////////////////////////////////////////////////////////
-    void setParameter(const std::string& name, const Transform& transform);
+    void setParameter(const std::string& name, const TransformBase& transform);
 
     ////////////////////////////////////////////////////////////
     /// \brief Change a texture parameter of the shader

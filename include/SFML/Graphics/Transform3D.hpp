@@ -22,24 +22,24 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef SFML_TRANSFORM_HPP
-#define SFML_TRANSFORM_HPP
+#ifndef SFML_TRANSFORM3D_HPP
+#define SFML_TRANSFORM3D_HPP
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
 #include <SFML/Graphics/Export.hpp>
 #include <SFML/Graphics/TransformBase.hpp>
-#include <SFML/System/Vector2.hpp>
+#include <SFML/System/Vector3.hpp>
 
 
 namespace sf
 {
 ////////////////////////////////////////////////////////////
-/// \brief Define a 3x3 transform matrix
+/// \brief Define a 4x4 transform matrix
 ///
 ////////////////////////////////////////////////////////////
-class SFML_GRAPHICS_API Transform : public TransformBase
+class SFML_GRAPHICS_API Transform3D : public TransformBase
 {
 public:
 
@@ -49,25 +49,33 @@ public:
     /// Creates an identity transform (a transform that does nothing).
     ///
     ////////////////////////////////////////////////////////////
-    Transform();
+    Transform3D();
 
     ////////////////////////////////////////////////////////////
-    /// \brief Construct a transform from a 3x3 matrix
+    /// \brief Construct a transform from a 4x4 matrix
     ///
     /// \param a00 Element (0, 0) of the matrix
     /// \param a01 Element (0, 1) of the matrix
     /// \param a02 Element (0, 2) of the matrix
+    /// \param a03 Element (0, 3) of the matrix
     /// \param a10 Element (1, 0) of the matrix
     /// \param a11 Element (1, 1) of the matrix
     /// \param a12 Element (1, 2) of the matrix
+    /// \param a13 Element (1, 3) of the matrix
     /// \param a20 Element (2, 0) of the matrix
     /// \param a21 Element (2, 1) of the matrix
     /// \param a22 Element (2, 2) of the matrix
+    /// \param a23 Element (2, 3) of the matrix
+    /// \param a30 Element (3, 0) of the matrix
+    /// \param a31 Element (3, 1) of the matrix
+    /// \param a32 Element (3, 2) of the matrix
+    /// \param a33 Element (3, 3) of the matrix
     ///
     ////////////////////////////////////////////////////////////
-    Transform(float a00, float a01, float a02,
-              float a10, float a11, float a12,
-              float a20, float a21, float a22);
+    Transform3D(float a00, float a01, float a02, float a03,
+                float a10, float a11, float a12, float a13,
+                float a20, float a21, float a22, float a23,
+                float a30, float a31, float a32, float a33);
 
     ////////////////////////////////////////////////////////////
     /// \brief Construct a transform from another
@@ -75,7 +83,7 @@ public:
     /// Copies the matrix from another transform (2D or 3D).
     ///
     ////////////////////////////////////////////////////////////
-    Transform(const TransformBase &transform);
+    Transform3D(const TransformBase &transform);
 
     ////////////////////////////////////////////////////////////
     /// \brief Return the inverse of the transform
@@ -86,7 +94,7 @@ public:
     /// \return A new transform which is the inverse of self
     ///
     ////////////////////////////////////////////////////////////
-    Transform getInverse() const;
+    Transform3D getInverse() const;
 
     ////////////////////////////////////////////////////////////
     /// \brief Combine the current transform with another one
@@ -100,27 +108,124 @@ public:
     /// \return Reference to *this
     ///
     ////////////////////////////////////////////////////////////
-    Transform& combine(const TransformBase& transform);
+    Transform3D& combine(const TransformBase& transform);
 
     ////////////////////////////////////////////////////////////
-    /// \brief Combine the current transform with a translation
+    /// \brief Combine the current transform with an orthographic projection
     ///
     /// This function returns a reference to *this, so that calls
     /// can be chained.
     /// \code
-    /// sf::Transform transform;
-    /// transform.translate(100, 200).rotate(45);
+    /// sf::Transform3D transform;
+    /// transform.frustum(-1, 1, -1, 1, -1, 1);
     /// \endcode
     ///
-    /// \param x Offset to apply on X axis
-    /// \param y Offset to apply on Y axis
+    /// \param left X-coordinate projected to left edge of screen
+    /// \param right X-coordinate projected to right edge of screen
+    /// \param bottom Y-coordinate projected to bottom edge of screen
+    /// \param top Y-coordinate projected to top edge of screen
+    /// \param znear Z-coordinate projected to near clipping plane
+    /// \param zfar Z-coordinate projected to far clipping plane
     ///
     /// \return Reference to *this
     ///
-    /// \see rotate, scale
+    /// \see frustum, perspective, lookAt
     ///
     ////////////////////////////////////////////////////////////
-    Transform& translate(float x, float y);
+    Transform3D &orthographic(float left, float right, float bottom, float top, float znear, float zfar);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Combine the current transform with an orthographic projection
+    ///
+    /// This function returns a reference to *this, so that calls
+    /// can be chained.
+    /// \code
+    /// sf::Transform3D transform;
+    /// transform.frustum(-1, 1, -1, 1, -1, 1);
+    /// \endcode
+    ///
+    /// \param left X-coordinate projected to left edge of screen
+    /// \param right X-coordinate projected to right edge of screen
+    /// \param bottom Y-coordinate projected to bottom edge of screen
+    /// \param top Y-coordinate projected to top edge of screen
+    ///
+    /// \return Reference to *this
+    ///
+    /// \see frustum, perspective, lookAt
+    ///
+    ////////////////////////////////////////////////////////////
+    Transform3D &orthographic(float left, float right, float bottom, float top);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Combine the current transform with a frustum projection
+    ///
+    /// This function returns a reference to *this, so that calls
+    /// can be chained.
+    /// \code
+    /// sf::Transform3D transform;
+    /// transform.frustum(-1, 1, -1, 1, 0.1, 100.0);
+    /// \endcode
+    ///
+    /// \param left X-coordinate projected to left edge of screen
+    /// \param right X-coordinate projected to right edge of screen
+    /// \param bottom Y-coordinate projected to bottom edge of screen
+    /// \param top Y-coordinate projected to top edge of screen
+    /// \param znear Z-coordinate projected to near clipping plane
+    /// \param zfar Z-coordinate projected to far clipping plane
+    ///
+    /// \return Reference to *this
+    ///
+    /// \see orthographic, perspective, lookAt
+    ///
+    ////////////////////////////////////////////////////////////
+    Transform3D &frustum(float left, float right, float bottom, float top, float znear, float zfar);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Combine the current transform with a perspective projection
+    ///
+    /// This function returns a reference to *this, so that calls
+    /// can be chained.
+    /// \code
+    /// sf::Transform3D transform;
+    /// transform.perspective(75, 16.f/9.f, 0.1, 100.0);
+    /// \endcode
+    ///
+    /// \param fov Field of view (in degrees) between top and bottom of screen
+    /// \param aspect Aspect ratio of screen (width / height)
+    /// \param znear Z-coordinate projected to near clipping plane
+    /// \param zfar Z-coordinate projected to far clipping plane
+    ///
+    /// \return Reference to *this
+    ///
+    /// \see orthographic, frustum, lookAt
+    ///
+    ////////////////////////////////////////////////////////////
+    Transform3D &perspective(float fov, float aspect, float znear, float zfar);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Combine the current transform with an orientation transform
+    ///
+    /// An orientation transform adjusts the projection such that the viewer is
+    /// positioned at \a eye, looking toward \a target, with \a up pointing
+    /// toward the top of the screen.
+    ///
+    /// This function returns a reference to *this, so that calls
+    /// can be chained.
+    /// \code
+    /// sf::Transform3D transform;
+    /// transform.lookAt(eye, target, up);
+    /// \endcode
+    ///
+    /// \param eye Field of view (in degrees) between top and bottom of screen
+    /// \param target Aspect ratio of screen (width / height)
+    /// \param up Z-coordinate projected to near clipping plane
+    ///
+    /// \return Reference to *this
+    ///
+    /// \see orthographic, frustum, perspective
+    ///
+    ////////////////////////////////////////////////////////////
+    Transform3D &lookAt(const sf::Vector3f &eye, const sf::Vector3f &target, const sf::Vector3f &up = sf::Vector3f(0.0f, 1.0f, 0.0f));
 
     ////////////////////////////////////////////////////////////
     /// \brief Combine the current transform with a translation
@@ -128,8 +233,8 @@ public:
     /// This function returns a reference to *this, so that calls
     /// can be chained.
     /// \code
-    /// sf::Transform transform;
-    /// transform.translate(sf::Vector2f(100, 200)).rotate(45);
+    /// sf::Transform3D transform;
+    /// transform.translate(sf::Vector3f(100, 200)).rotate(45);
     /// \endcode
     ///
     /// \param offset Translation offset to apply
@@ -139,7 +244,7 @@ public:
     /// \see rotate, scale
     ///
     ////////////////////////////////////////////////////////////
-    Transform& translate(const Vector2f& offset);
+    Transform3D& translate(const Vector3f& offset);
 
     ////////////////////////////////////////////////////////////
     /// \brief Combine the current transform with a rotation
@@ -147,18 +252,19 @@ public:
     /// This function returns a reference to *this, so that calls
     /// can be chained.
     /// \code
-    /// sf::Transform transform;
+    /// sf::Transform3D transform;
     /// transform.rotate(90).translate(50, 20);
     /// \endcode
     ///
     /// \param angle Rotation angle, in degrees
+    /// \param axis Rotation axis
     ///
     /// \return Reference to *this
     ///
     /// \see translate, scale
     ///
     ////////////////////////////////////////////////////////////
-    Transform& rotate(float angle);
+    Transform3D& rotate(float angle, const Vector3f &axis);
 
     ////////////////////////////////////////////////////////////
     /// \brief Combine the current transform with a rotation
@@ -171,37 +277,12 @@ public:
     /// This function returns a reference to *this, so that calls
     /// can be chained.
     /// \code
-    /// sf::Transform transform;
-    /// transform.rotate(90, 8, 3).translate(50, 20);
+    /// sf::Transform3D transform;
+    /// transform.rotate(90, sf::Vector3f(8, 3)).translate(sf::Vector3f(50, 20));
     /// \endcode
     ///
     /// \param angle Rotation angle, in degrees
-    /// \param centerX X coordinate of the center of rotation
-    /// \param centerY Y coordinate of the center of rotation
-    ///
-    /// \return Reference to *this
-    ///
-    /// \see translate, scale
-    ///
-    ////////////////////////////////////////////////////////////
-    Transform& rotate(float angle, float centerX, float centerY);
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Combine the current transform with a rotation
-    ///
-    /// The center of rotation is provided for convenience as a second
-    /// argument, so that you can build rotations around arbitrary points
-    /// more easily (and efficiently) than the usual
-    /// translate(-center).rotate(angle).translate(center).
-    ///
-    /// This function returns a reference to *this, so that calls
-    /// can be chained.
-    /// \code
-    /// sf::Transform transform;
-    /// transform.rotate(90, sf::Vector2f(8, 3)).translate(sf::Vector2f(50, 20));
-    /// \endcode
-    ///
-    /// \param angle Rotation angle, in degrees
+    /// \param axis Rotation axis
     /// \param center Center of rotation
     ///
     /// \return Reference to *this
@@ -209,7 +290,7 @@ public:
     /// \see translate, scale
     ///
     ////////////////////////////////////////////////////////////
-    Transform& rotate(float angle, const Vector2f& center);
+    Transform3D& rotate(float angle, const Vector3f &axis, const Vector3f& center);
 
     ////////////////////////////////////////////////////////////
     /// \brief Combine the current transform with a scaling
@@ -217,19 +298,18 @@ public:
     /// This function returns a reference to *this, so that calls
     /// can be chained.
     /// \code
-    /// sf::Transform transform;
+    /// sf::Transform3D transform;
     /// transform.scale(2, 1).rotate(45);
     /// \endcode
     ///
-    /// \param scaleX Scaling factor on the X axis
-    /// \param scaleY Scaling factor on the Y axis
+    /// \param factor Scaling factor
     ///
     /// \return Reference to *this
     ///
     /// \see translate, rotate
     ///
     ////////////////////////////////////////////////////////////
-    Transform& scale(float scaleX, float scaleY);
+    Transform3D& scale(float factor);
 
     ////////////////////////////////////////////////////////////
     /// \brief Combine the current transform with a scaling
@@ -242,21 +322,19 @@ public:
     /// This function returns a reference to *this, so that calls
     /// can be chained.
     /// \code
-    /// sf::Transform transform;
-    /// transform.scale(2, 1, 8, 3).rotate(45);
+    /// sf::Transform3D transform;
+    /// transform.scale(sf::Vector3f(2, 1), sf::Vector3f(8, 3)).rotate(45);
     /// \endcode
     ///
-    /// \param scaleX Scaling factor on X axis
-    /// \param scaleY Scaling factor on Y axis
-    /// \param centerX X coordinate of the center of scaling
-    /// \param centerY Y coordinate of the center of scaling
+    /// \param factor Scaling factor
+    /// \param center Center of scaling
     ///
     /// \return Reference to *this
     ///
     /// \see translate, rotate
     ///
     ////////////////////////////////////////////////////////////
-    Transform& scale(float scaleX, float scaleY, float centerX, float centerY);
+    Transform3D& scale(float factor, const Vector3f& center);
 
     ////////////////////////////////////////////////////////////
     /// \brief Combine the current transform with a scaling
@@ -264,8 +342,8 @@ public:
     /// This function returns a reference to *this, so that calls
     /// can be chained.
     /// \code
-    /// sf::Transform transform;
-    /// transform.scale(sf::Vector2f(2, 1)).rotate(45);
+    /// sf::Transform3D transform;
+    /// transform.scale(sf::Vector3f(2, 1)).rotate(45);
     /// \endcode
     ///
     /// \param factors Scaling factors
@@ -275,7 +353,7 @@ public:
     /// \see translate, rotate
     ///
     ////////////////////////////////////////////////////////////
-    Transform& scale(const Vector2f& factors);
+    Transform3D& scale(const Vector3f& factors);
 
     ////////////////////////////////////////////////////////////
     /// \brief Combine the current transform with a scaling
@@ -288,8 +366,8 @@ public:
     /// This function returns a reference to *this, so that calls
     /// can be chained.
     /// \code
-    /// sf::Transform transform;
-    /// transform.scale(sf::Vector2f(2, 1), sf::Vector2f(8, 3)).rotate(45);
+    /// sf::Transform3D transform;
+    /// transform.scale(sf::Vector3f(2, 1), sf::Vector3f(8, 3)).rotate(45);
     /// \endcode
     ///
     /// \param factors Scaling factors
@@ -300,20 +378,20 @@ public:
     /// \see translate, rotate
     ///
     ////////////////////////////////////////////////////////////
-    Transform& scale(const Vector2f& factors, const Vector2f& center);
+    Transform3D& scale(const Vector3f& factors, const Vector3f& center);
 };
 
 } // namespace sf
 
 
-#endif // SFML_TRANSFORM_HPP
+#endif // SFML_TRANSFORM3D_HPP
 
 
 ////////////////////////////////////////////////////////////
-/// \class sf::Transform
+/// \class sf::Transform3D
 /// \ingroup graphics
 ///
-/// A sf::Transform specifies how to translate, rotate, scale,
+/// A sf::Transform3D specifies how to translate, rotate, scale,
 /// shear, project, whatever things. In mathematical terms, it defines
 /// how to transform a coordinate system into another.
 ///
@@ -330,18 +408,18 @@ public:
 /// Example:
 /// \code
 /// // define a translation transform
-/// sf::Transform translation;
+/// sf::Transform3D translation;
 /// translation.translate(20, 50);
 ///
 /// // define a rotation transform
-/// sf::Transform rotation;
+/// sf::Transform3D rotation;
 /// rotation.rotate(45);
 ///
 /// // combine them
-/// sf::Transform transform = translation * rotation;
+/// sf::Transform3D transform = translation * rotation;
 ///
 /// // use the result to transform stuff...
-/// sf::Vector2f point = transform.transformPoint(10, 20);
+/// sf::Vector3f point = transform.transformPoint(10, 20);
 /// sf::FloatRect rect = transform.transformRect(sf::FloatRect(0, 0, 10, 100));
 /// \endcode
 ///

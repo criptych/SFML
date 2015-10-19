@@ -30,7 +30,7 @@
 ////////////////////////////////////////////////////////////
 #include <SFML/Graphics/Export.hpp>
 #include <SFML/Graphics/BlendMode.hpp>
-#include <SFML/Graphics/Transform.hpp>
+#include <SFML/Graphics/TransformBase.hpp>
 
 
 namespace sf
@@ -74,7 +74,7 @@ public:
     /// \param theTransform Transform to use
     ///
     ////////////////////////////////////////////////////////////
-    RenderStates(const Transform& theTransform);
+    RenderStates(const TransformBase& theTransform);
 
     ////////////////////////////////////////////////////////////
     /// \brief Construct a default set of render states with a custom texture
@@ -101,7 +101,7 @@ public:
     /// \param theShader    Shader to use
     ///
     ////////////////////////////////////////////////////////////
-    RenderStates(const BlendMode& theBlendMode, const Transform& theTransform,
+    RenderStates(const BlendMode& theBlendMode, const TransformBase& theTransform,
                  const Texture* theTexture, const Shader* theShader);
 
     ////////////////////////////////////////////////////////////
@@ -113,7 +113,7 @@ public:
     // Member data
     ////////////////////////////////////////////////////////////
     BlendMode      blendMode; ///< Blending mode
-    Transform      transform; ///< Transform
+    TransformBase  transform; ///< Transform
     const Texture* texture;   ///< Texture
     const Shader*  shader;    ///< Shader
 };
