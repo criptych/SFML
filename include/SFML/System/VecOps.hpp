@@ -28,6 +28,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/System/Vector3.hpp>
 #include <SFML/System/Vector4.hpp>
+#include <cmath>
 
 namespace sf
 {
@@ -141,6 +142,42 @@ inline Vector2<T> conj(const Vector2<T> &left);
 ////////////////////////////////////////////////////////////
 template <typename T>
 inline Vector4<T> conj(const Vector4<T> &left);
+
+////////////////////////////////////////////////////////////
+/// \relates Vector2
+/// \brief Normalize the input vector.
+///
+/// \param left  Left operand (a vector)
+///
+/// \return Normalized \a left
+///
+////////////////////////////////////////////////////////////
+template <typename T>
+inline Vector2<T> normalize(const Vector2<T> &left);
+
+////////////////////////////////////////////////////////////
+/// \relates Vector3
+/// \brief Normalize the input vector.
+///
+/// \param left  Left operand (a vector)
+///
+/// \return Normalized \a left
+///
+////////////////////////////////////////////////////////////
+template <typename T>
+inline Vector3<T> normalize(const Vector3<T> &left);
+
+////////////////////////////////////////////////////////////
+/// \relates Vector4
+/// \brief Normalize the input vector.
+///
+/// \param left  Left operand (a vector)
+///
+/// \return Normalized \a left
+///
+////////////////////////////////////////////////////////////
+template <typename T>
+inline Vector4<T> normalize(const Vector4<T> &left);
 
 #include <SFML/System/VecOps.inl>
 

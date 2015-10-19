@@ -76,6 +76,7 @@ inline Vector4<T> qmul(const Vector4<T> &left, const Vector4<T> &right)
         left.w * right.w - left.x * right.x - left.y * right.y - left.z * right.z);
 }
 
+
 ////////////////////////////////////////////////////////////
 template <typename T>
 inline Vector2<T> conj(const Vector2<T> &left)
@@ -83,9 +84,34 @@ inline Vector2<T> conj(const Vector2<T> &left)
     return Vector2<T>(left.x, -left.y);
 }
 
+
 ////////////////////////////////////////////////////////////
 template <typename T>
 inline Vector4<T> conj(const Vector4<T> &left)
 {
     return Vector2<T>(-left.x, -left.y, -left.z, left.w);
+}
+
+
+////////////////////////////////////////////////////////////
+template <typename T>
+inline Vector2<T> normalize(const Vector2<T> &left)
+{
+    return left / std::sqrt(dot(left, left));
+}
+
+
+////////////////////////////////////////////////////////////
+template <typename T>
+inline Vector3<T> normalize(const Vector3<T> &left)
+{
+    return left / std::sqrt(dot(left, left));
+}
+
+
+////////////////////////////////////////////////////////////
+template <typename T>
+inline Vector4<T> normalize(const Vector4<T> &left)
+{
+    return left / std::sqrt(dot(left, left));
 }
