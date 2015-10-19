@@ -104,6 +104,42 @@ public:
     static Vector3f getPosition();
 
     ////////////////////////////////////////////////////////////
+    /// \brief Set the velocity of the listener in the scene
+    ///
+    /// The default listener's velocity is (0, 0, 0).
+    ///
+    /// \param x X coordinate of the listener's velocity
+    /// \param y Y coordinate of the listener's velocity
+    /// \param z Z coordinate of the listener's velocity
+    ///
+    /// \see getVelocity, setDirection
+    ///
+    ////////////////////////////////////////////////////////////
+    static void setVelocity(float x, float y, float z);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Set the velocity of the listener in the scene
+    ///
+    /// The default listener's velocity is (0, 0, 0).
+    ///
+    /// \param velocity New listener's velocity
+    ///
+    /// \see getVelocity, setDirection
+    ///
+    ////////////////////////////////////////////////////////////
+    static void setVelocity(const Vector3f& velocity);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Get the current velocity of the listener in the scene
+    ///
+    /// \return Listener's velocity
+    ///
+    /// \see setVelocity
+    ///
+    ////////////////////////////////////////////////////////////
+    static Vector3f getVelocity();
+
+    ////////////////////////////////////////////////////////////
     /// \brief Set the forward vector of the listener in the scene
     ///
     /// The direction (also called "at vector") is the vector

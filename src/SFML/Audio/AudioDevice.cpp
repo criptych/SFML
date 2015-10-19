@@ -39,6 +39,7 @@ namespace
 
     float        listenerVolume = 100.f;
     sf::Vector3f listenerPosition (0.f, 0.f, 0.f);
+    sf::Vector3f listenerVelocity (0.f, 0.f, 0.f);
     sf::Vector3f listenerDirection(0.f, 0.f, -1.f);
     sf::Vector3f listenerUpVector (0.f, 1.f, 0.f);
 }
@@ -72,6 +73,7 @@ AudioDevice::AudioDevice()
                                    listenerUpVector.z};
             alCheck(alListenerf(AL_GAIN, listenerVolume * 0.01f));
             alCheck(alListener3f(AL_POSITION, listenerPosition.x, listenerPosition.y, listenerPosition.z));
+            alCheck(alListener3f(AL_VELOCITY, listenerVelocity.x, listenerVelocity.y, listenerVelocity.z));
             alCheck(alListenerfv(AL_ORIENTATION, orientation));
         }
         else
@@ -181,6 +183,23 @@ void AudioDevice::setPosition(const Vector3f& position)
 Vector3f AudioDevice::getPosition()
 {
     return listenerPosition;
+}
+
+
+////////////////////////////////////////////////////////////
+void AudioDevice::setVelocity(const Vector3f& velocity)
+{
+    if (audioContext)
+        alCheck(alListener3f(AL_VELOCITY, velocity.x, velocity.y, velocity.z));
+
+    listenerVelocity = velocity;
+}
+
+
+////////////////////////////////////////////////////////////
+Vector3f AudioDevice::getVelocity()
+{
+    return listenerVelocity;
 }
 
 
