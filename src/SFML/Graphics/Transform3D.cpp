@@ -26,6 +26,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <SFML/Graphics/Transform3D.hpp>
+#include <SFML/System/VecOps.hpp>
 #include <cmath>
 
 
@@ -129,6 +130,59 @@ Transform3D& Transform3D::combine(const TransformBase& transform)
     return *this;
 }
 
+
+////////////////////////////////////////////////////////////
+Transform3D &Transform3D::orthographic(float left, float right, float bottom, float top, float znear, float zfar) {
+    Transform3D transform(
+        2 / (right - left), 0.0f, 0.0f, (left + right) / (left - right),
+        0.0f, 2 / (top - bottom), 0.0f, (bottom + top) / (bottom - top),
+        0.0f, 0.0f, 2 / (znear - zfar), (znear + zfar) / (znear - zfar),
+        0.0f, 0.0f, 0.0f, 1.0f);
+
+    return combine(transform);
+}
+
+
+////////////////////////////////////////////////////////////
+Transform3D &Transform3D::orthographic(float left, float right, float bottom, float top) {
+    return orthographic(left, right, bottom, top, -1, 1);
+}
+
+
+////////////////////////////////////////////////////////////
+Transform3D &Transform3D::frustum(float left, float right, float bottom, float top, float znear, float zfar) {
+    Transform3D transform(
+        (2 * znear) / (right - left), 0.0f, (right + left) / (right - left), 0.0f,
+        0.0f, (2 * znear) / (top - bottom), (top + bottom) / (top - bottom), 0.0f,
+        0.0f, 0.0f, (znear + zfar) / (znear - zfar), (2 * znear * zfar) / (znear - zfar),
+        0.0f, 0.0f, -1.0f, 0.0f);
+
+    return combine(transform);
+}
+
+
+////////////////////////////////////////////////////////////
+Transform3D &Transform3D::perspective(float fov, float aspect, float znear, float zfar) {
+    float fh = std::tan(fov*(3.14159265358979/360.0))*znear;
+    float fw = fh * aspect;
+    return frustum(-fw, fw, -fh, fh, znear, zfar);
+}
+
+
+////////////////////////////////////////////////////////////
+Transform3D &Transform3D::lookAt(const sf::Vector3f &eye, const sf::Vector3f &target, const sf::Vector3f &up) {
+    sf::Vector3f f, r, u;
+    f = normalize(eye - target);
+    r = normalize(cross(up, f));
+    u = normalize(cross(f, r));
+
+    Transform3D transform(r.x, u.x, f.x, 0,
+                          r.y, u.y, f.y, 0,
+                          r.z, u.z, f.z, 0,
+                          0,   0,   0,   1);
+
+    return combine(transform);
+}
 
 ////////////////////////////////////////////////////////////
 Transform3D& Transform3D::translate(const Vector3f& offset)

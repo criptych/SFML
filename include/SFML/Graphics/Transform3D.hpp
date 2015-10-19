@@ -111,6 +111,123 @@ public:
     Transform3D& combine(const TransformBase& transform);
 
     ////////////////////////////////////////////////////////////
+    /// \brief Combine the current transform with an orthographic projection
+    ///
+    /// This function returns a reference to *this, so that calls
+    /// can be chained.
+    /// \code
+    /// sf::Transform3D transform;
+    /// transform.frustum(-1, 1, -1, 1, -1, 1);
+    /// \endcode
+    ///
+    /// \param left X-coordinate projected to left edge of screen
+    /// \param right X-coordinate projected to right edge of screen
+    /// \param bottom Y-coordinate projected to bottom edge of screen
+    /// \param top Y-coordinate projected to top edge of screen
+    /// \param znear Z-coordinate projected to near clipping plane
+    /// \param zfar Z-coordinate projected to far clipping plane
+    ///
+    /// \return Reference to *this
+    ///
+    /// \see frustum, perspective, lookAt
+    ///
+    ////////////////////////////////////////////////////////////
+    Transform3D &orthographic(float left, float right, float bottom, float top, float znear, float zfar);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Combine the current transform with an orthographic projection
+    ///
+    /// This function returns a reference to *this, so that calls
+    /// can be chained.
+    /// \code
+    /// sf::Transform3D transform;
+    /// transform.frustum(-1, 1, -1, 1, -1, 1);
+    /// \endcode
+    ///
+    /// \param left X-coordinate projected to left edge of screen
+    /// \param right X-coordinate projected to right edge of screen
+    /// \param bottom Y-coordinate projected to bottom edge of screen
+    /// \param top Y-coordinate projected to top edge of screen
+    ///
+    /// \return Reference to *this
+    ///
+    /// \see frustum, perspective, lookAt
+    ///
+    ////////////////////////////////////////////////////////////
+    Transform3D &orthographic(float left, float right, float bottom, float top);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Combine the current transform with a frustum projection
+    ///
+    /// This function returns a reference to *this, so that calls
+    /// can be chained.
+    /// \code
+    /// sf::Transform3D transform;
+    /// transform.frustum(-1, 1, -1, 1, 0.1, 100.0);
+    /// \endcode
+    ///
+    /// \param left X-coordinate projected to left edge of screen
+    /// \param right X-coordinate projected to right edge of screen
+    /// \param bottom Y-coordinate projected to bottom edge of screen
+    /// \param top Y-coordinate projected to top edge of screen
+    /// \param znear Z-coordinate projected to near clipping plane
+    /// \param zfar Z-coordinate projected to far clipping plane
+    ///
+    /// \return Reference to *this
+    ///
+    /// \see orthographic, perspective, lookAt
+    ///
+    ////////////////////////////////////////////////////////////
+    Transform3D &frustum(float left, float right, float bottom, float top, float znear, float zfar);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Combine the current transform with a perspective projection
+    ///
+    /// This function returns a reference to *this, so that calls
+    /// can be chained.
+    /// \code
+    /// sf::Transform3D transform;
+    /// transform.perspective(75, 16.f/9.f, 0.1, 100.0);
+    /// \endcode
+    ///
+    /// \param fov Field of view (in degrees) between top and bottom of screen
+    /// \param aspect Aspect ratio of screen (width / height)
+    /// \param znear Z-coordinate projected to near clipping plane
+    /// \param zfar Z-coordinate projected to far clipping plane
+    ///
+    /// \return Reference to *this
+    ///
+    /// \see orthographic, frustum, lookAt
+    ///
+    ////////////////////////////////////////////////////////////
+    Transform3D &perspective(float fov, float aspect, float znear, float zfar);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Combine the current transform with an orientation transform
+    ///
+    /// An orientation transform adjusts the projection such that the viewer is
+    /// positioned at \a eye, looking toward \a target, with \a up pointing
+    /// toward the top of the screen.
+    ///
+    /// This function returns a reference to *this, so that calls
+    /// can be chained.
+    /// \code
+    /// sf::Transform3D transform;
+    /// transform.lookAt(eye, target, up);
+    /// \endcode
+    ///
+    /// \param eye Field of view (in degrees) between top and bottom of screen
+    /// \param target Aspect ratio of screen (width / height)
+    /// \param up Z-coordinate projected to near clipping plane
+    ///
+    /// \return Reference to *this
+    ///
+    /// \see orthographic, frustum, perspective
+    ///
+    ////////////////////////////////////////////////////////////
+    Transform3D &lookAt(const sf::Vector3f &eye, const sf::Vector3f &target, const sf::Vector3f &up = sf::Vector3f(0.0f, 1.0f, 0.0f));
+
+    ////////////////////////////////////////////////////////////
     /// \brief Combine the current transform with a translation
     ///
     /// This function returns a reference to *this, so that calls
