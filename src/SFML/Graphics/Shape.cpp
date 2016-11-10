@@ -163,7 +163,7 @@ m_textureRect     (),
 m_fillColor       (255, 255, 255),
 m_outlineColor    (255, 255, 255),
 m_outlineThickness(0),
-m_vertices        (TriangleFan),
+m_vertices        (TriangleStrip),
 m_outlineVertices (TriangleStrip),
 m_insideBounds    (),
 m_bounds          ()
@@ -183,20 +183,20 @@ void Shape::update()
         return;
     }
 
-    m_vertices.resize(count + 2); // + 2 for center and repeated first point
+    m_vertices.resize(count);
 
     // Position
-    for (std::size_t i = 0; i < count; ++i)
-        m_vertices[i + 1].position = getPoint(i);
-    m_vertices[count + 1].position = m_vertices[1].position;
+    for (std::size_t i = 0, j = count - 1; i < j; ++i, --j) {
+        m_vertices[i * 2 + 0].position = getPoint(i);
+        m_vertices[i * 2 + 1].position = getPoint(j);
+    }
+
+    if (count & 1) {
+        m_vertices[count - 1].position = getPoint(count / 2);
+    }
 
     // Update the bounding rectangle
-    m_vertices[0] = m_vertices[1]; // so that the result of getBounds() is correct
     m_insideBounds = m_vertices.getBounds();
-
-    // Compute the center and make it the first vertex
-    m_vertices[0].position.x = m_insideBounds.left + m_insideBounds.width / 2;
-    m_vertices[0].position.y = m_insideBounds.top + m_insideBounds.height / 2;
 
     // Color
     updateFillColors();
@@ -251,17 +251,20 @@ void Shape::updateTexCoords()
 ////////////////////////////////////////////////////////////
 void Shape::updateOutline()
 {
-    std::size_t count = m_vertices.getVertexCount() - 2;
+    std::size_t count = getPointCount();
     m_outlineVertices.resize((count + 1) * 2);
+
+    sf::Vector2f center(
+        m_insideBounds.left + m_insideBounds.width / 2,
+        m_insideBounds.top + m_insideBounds.height / 2
+    );
 
     for (std::size_t i = 0; i < count; ++i)
     {
-        std::size_t index = i + 1;
-
         // Get the two segments shared by the current point
-        Vector2f p0 = (i == 0) ? m_vertices[count].position : m_vertices[index - 1].position;
-        Vector2f p1 = m_vertices[index].position;
-        Vector2f p2 = m_vertices[index + 1].position;
+        sf::Vector2f p0 = getPoint((i == 0) ? count-1 : i - 1);
+        sf::Vector2f p1 = getPoint(i);
+        sf::Vector2f p2 = getPoint(i + 1);
 
         // Compute their normal
         Vector2f n1 = computeNormal(p0, p1);
@@ -269,9 +272,9 @@ void Shape::updateOutline()
 
         // Make sure that the normals point towards the outside of the shape
         // (this depends on the order in which the points were defined)
-        if (dotProduct(n1, m_vertices[0].position - p1) > 0)
+        if (dotProduct(n1, center - p1) > 0)
             n1 = -n1;
-        if (dotProduct(n2, m_vertices[0].position - p1) > 0)
+        if (dotProduct(n2, center - p1) > 0)
             n2 = -n2;
 
         // Combine them to get the extrusion direction
